@@ -62,7 +62,7 @@ app.post("/register", async (request, response) => {
             response.status(400);
             response.send("Password is too short");
         } else {
-            const hashed Password = await bcrypt.hash (password, 10);
+            const hashedPassword = await bcrypt.hash (password, 10);
             const createUserQuery = `
             INSERT INTO
                 user (name, username, password, gender)
@@ -108,7 +108,7 @@ app.post("/Login", async(request, response) => {
 
 //User Tweets Feed API-3
 
-app.get("/user/tweets/feed", authenticate Token, async (request, response) => {
+app.get("/user/tweets/feed", authenticateToken, async (request, response) => {
     const {payload} = request;
     const {user_id, name, username, gender} = payload;
     console.log(name);
@@ -146,7 +146,7 @@ app.get("/user/following", authenticateToken, async (request, response) => {
 
 
 // Get User Names Followers API-5
-app.get("/user/followers", authenticate Token, async (request, response) => {
+app.get("/user/followers", authenticateToken, async (request, response) => {
     const {payload} = request;
     const {user_id, name, username, gender} = payload;
     console.log(name);
@@ -157,19 +157,19 @@ app.get("/user/followers", authenticate Token, async (request, response) => {
         user INNER JOIN follower ON user.user_id = follower.follower_user_id
     WHERE
         follower.following_user_id = ${user_id};`;
-    const userFollowersArray = await db.all(user FollowersQuery);
+    const userFollowersArray = await db.all(userFollowersQuery);
     response.send(userFollowersArray);
 });
 
 
 // Get Tweet API-6
-app.get("/tweets/: tweetId", authenticate Token, async (request, response) => {
+app.get("/tweets/: tweetId", authenticateToken, async (request, response) => {
     const {tweetId} = request;
-    const {payload} - request;
+    const {payload} = request;
     const {user_id, name, username, gender} = payload;
     console.log(name, tweetId);
     const tweetsQuery = `SELECT * FROM tweet WHERE tweet_id=${tweetId};`;
-    const tweets Result = await db.get(tweetsQuery);
+    const tweetsResult = await db.get(tweetsQuery);
     // response.send(tweetsResult);
     const userFollowersQuery = `
         SELECT
