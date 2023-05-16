@@ -342,4 +342,4 @@ app.delete("/tweets/:tweetId/", authenticateToken, async(request, response) => {
     }
 });
 
-export default app;
+module.exports = app;
