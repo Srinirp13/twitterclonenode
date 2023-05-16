@@ -170,7 +170,7 @@ app.get("/tweets/: tweetId", authenticateToken, async (request, response) => {
     console.log(name, tweetId);
     const tweetsQuery = `SELECT * FROM tweet WHERE tweet_id=${tweetId};`;
     const tweetsResult = await db.get(tweetsQuery);
-    // response.send(tweetsResult);
+    response.send(tweetsResult);
     const userFollowersQuery = `
         SELECT
             *
@@ -180,7 +180,7 @@ app.get("/tweets/: tweetId", authenticateToken, async (request, response) => {
             follower.follower_user_id = ${user_id};`;
     const userFollowers = await db.all(userFollowersQuery);
 
-    // response.send(userFollowers);
+    response.send(userFollowers);
     if (
         userFollowers.some (
             (item) => item.following_user_id = tweetsResult.user_id
@@ -342,4 +342,4 @@ app.delete("/tweets/:tweetId/", authenticateToken, async(request, response) => {
     }
 });
 
-module.exports = app;
+export default app;
